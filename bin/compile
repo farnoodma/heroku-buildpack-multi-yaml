@@ -8,23 +8,23 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-PROCFILE=$(cat "${ENV_DIR}/PROCFILE")
+YAMLFILE=$(cat "${ENV_DIR}/YAMLFILE")
 
-if [[ -z "${PROCFILE}" ]]; then
-    echo "PROCFILE was not set. Aborting" | indent
+if [[ -z "${YAMLFILE}" ]]; then
+    echo "YAMLFILE was not set. Aborting" | indent
     exit 1
 fi
 
-cp "${BUILD_DIR}/${PROCFILE}" "${BUILD_DIR}/Procfile"
+cp "${BUILD_DIR}/${YAMLFILE}" "${BUILD_DIR}/heroku.yml"
 
 if ! [ $? ]; then
-    echo "FAILED to copy a Procfile" | indent
+    echo "FAILED to copy a heroku.yml" | indent
     exit 1
 fi
 
-echo "Copied ${PROCFILE} as Procfile successfully" | indent
+echo "Copied ${YAMLFILE} as heroku.yml successfully" | indent
 
-APP_DIR=$(dirname "${BUILD_DIR}/${PROCFILE}")
+APP_DIR=$(dirname "${BUILD_DIR}/${YAMLFILE}")
 
 if [[ -f "${APP_DIR}/app.json" ]]; then
     cp "${APP_DIR}/app.json" "${BUILD_DIR}/app.json"
